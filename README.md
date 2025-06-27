@@ -1,134 +1,119 @@
-# Jupyter Notebook
+![Screenshot 2025-06-27 132220](https://github.com/user-attachments/assets/f60fc62f-3bc5-485b-a5b0-792ab528878d)
 
-![Github Actions Status](https://github.com/jupyter/notebook/workflows/Build/badge.svg)
-[![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyter/notebook/main?urlpath=tree)
-[![Gitpod](https://img.shields.io/badge/gitpod_editor-open-blue.svg)](https://gitpod.io/#https://github.com/jupyter/notebook)
 
-The Jupyter notebook is a web-based notebook environment for interactive
-computing.
+---
 
-![Jupyter notebook example](docs/resources/running_code_med.png 'Jupyter notebook example')
+ 🎧 **Spotify Segmentation**
 
-## Maintained versions
+**Segmentation** in Spotify refers to dividing users (or songs) into distinct groups based on shared characteristics. This helps Spotify personalize recommendations, ads, and improve user experience.
 
-We maintain the **two most recently released major versions of Jupyter Notebook**,
-Classic Notebook v6 and Notebook v7. Notebook v5 is no longer maintained.
-All Notebook v5 users are strongly advised to upgrade to Classic Notebook v6 as soon as possible.
+### 1. **User Segmentation**
 
-Upgrading to Notebook v7 may require more work, if you use custom extensions, as extensions written
-for Notebook v5 or Classic Notebook v6 are not compatible with Notebook v7.
+Spotify segments users based on:
 
-### Notebook v7
+* **Demographics**: Age, gender, country.
+* **Behavioral Data**: Listening habits, time of day, skip rate, session duration.
+* **Preferences**: Favorite genres, liked songs, repeat tracks.
 
-The newest major version of Notebook is based on:
+Example segments:
 
-- JupyterLab components for the frontend
-- Jupyter Server for the Python server
+* “Morning chill playlist lovers”
+* “Pop music fans who use Spotify while working out”
+* “New users who skip most tracks”
 
-This represents a significant change to the `jupyter/notebook` code base.
+### 2. **Music/Track Segmentation**
 
-To learn more about Notebook v7: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
+Songs are segmented based on:
 
-### Classic Notebook v6
+* **Audio features** (from Spotify API):
 
-Maintenance and security-related issues [only](https://github.com/jupyter/notebook-team-compass/issues/5#issuecomment-1085254000) are now being addressed in the [`6.5.x`](https://github.com/jupyter/notebook/tree/6.5.x) branch.
-It depends on [`nbclassic`](https://github.com/jupyter/nbclassic) for the HTML/JavaScript/CSS assets.
+  * `danceability`, `energy`, `valence`, `tempo`, `acousticness`, etc.
+* **Genres** and **mood tags**
 
-New features and continuous improvement is now focused on Notebook v7 (see section above).
+Clustering algorithms (like **K-means**) can group similar songs together:
 
-If you have an open pull request with a new feature or if you were planning to open one, we encourage switching over to the Jupyter Server and JupyterLab architecture, and distribute it as a server extension and / or JupyterLab prebuilt extension. That way your new feature will also be compatible with the new Notebook v7.
+* Cluster 1: High energy, fast tempo (Party tracks)
+* Cluster 2: Low energy, high acousticness (Calm, study music)
 
-## Jupyter notebook, the language-agnostic evolution of IPython notebook
+---
 
-Jupyter notebook is a language-agnostic HTML notebook application for
-Project Jupyter. In 2015, Jupyter notebook was released as a part of
-The Big Split™ of the IPython codebase. IPython 3 was the last major monolithic
-release containing both language-agnostic code, such as the _IPython notebook_,
-and language specific code, such as the _IPython kernel for Python_. As
-computing spans across many languages, Project Jupyter will continue to develop the
-language-agnostic **Jupyter notebook** in this repo and with the help of the
-community develop language specific kernels which are found in their own
-discrete repos.
+## 💡 **Building a Recommendation System (Simple Version)**
 
-- [The Big Split™ announcement](https://blog.jupyter.org/the-big-split-9d7b88a031a7)
-- [Jupyter Ascending blog post](https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e)
+A **Recommendation System** suggests songs to users based on past behavior or similarities.
 
-## Installation
+### ✅ **Main Approaches:**
 
-You can find the installation documentation for the
-[Jupyter platform, on ReadTheDocs](https://jupyter.readthedocs.io/en/latest/install.html).
-The documentation for advanced usage of Jupyter notebook can be found
-[here](https://jupyter-notebook.readthedocs.io/en/latest/).
+---
 
-For a local installation, make sure you have
-[pip installed](https://pip.readthedocs.io/en/stable/installing/) and run:
+### 1. **Content-Based Filtering**
 
-```bash
-pip install notebook
-```
+Recommends items similar to what the user already liked.
 
-## Usage - Running Jupyter notebook
+* Uses song metadata or audio features.
+* Example: If you liked a high-energy pop song → recommends similar ones based on `danceability`, `genre`, etc.
 
-### Running in a local installation
+**Tools:** Cosine Similarity, KNN, TF-IDF (for lyrics or metadata)
 
-Launch with:
+---
 
-```bash
-jupyter notebook
-```
+### 2. **Collaborative Filtering**
 
-### Running in a remote installation
+Recommends based on user interactions (ratings, plays).
 
-You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](https://jupyter-server.readthedocs.io/en/latest/operators/public-server.html).
+* **User-User**: "People like you also liked..."
+* **Item-Item**: "This song is liked by users who also liked your favorite songs."
 
-## Development Installation
+**Tools:** Matrix Factorization (like SVD), Alternating Least Squares (ALS)
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to set up a local development installation.
+---
 
-## Contributing
+### 3. **Hybrid System (Used by Spotify)**
 
-If you are interested in contributing to the project, see [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Combines content-based + collaborative + context-aware data.
 
-## Community Guidelines and Code of Conduct
+* Also includes temporal data: What time you listen.
+* Mood detection, location, device used, etc.
 
-This repository is a Jupyter project and follows the Jupyter
-[Community Guides and Code of Conduct](https://jupyter.readthedocs.io/en/latest/community/content-community.html).
+---
 
-## Resources
+### 🛠️ **Steps to Build a Basic Music Recommender System**
 
-- [Project Jupyter website](https://jupyter.org)
-- [Online Demo at jupyter.org/try](https://jupyter.org/try)
-- [Documentation for Jupyter notebook](https://jupyter-notebook.readthedocs.io/en/latest/)
-- [Korean Version of Installation](https://github.com/ChungJooHo/Jupyter_Kor_doc/)
-- [Documentation for Project Jupyter](https://jupyter.readthedocs.io/en/latest/index.html)
-- [Issues](https://github.com/jupyter/notebook/issues)
-- [Technical support - Jupyter Google Group](https://discourse.jupyter.org/)
+1. **Collect Data**
 
-## About the Jupyter Development Team
+   * Spotify API (audio features, user listening history)
+   * Public datasets (like [Million Song Dataset](http://millionsongdataset.com/))
 
-The Jupyter Development Team is the set of all contributors to the Jupyter project.
-This includes all of the Jupyter subprojects.
+2. **Preprocess Data**
 
-The core team that coordinates development on GitHub can be found here:
-https://github.com/jupyter/.
+   * Handle missing values
+   * Normalize features (for clustering)
 
-## Our Copyright Policy
+3. **Exploratory Analysis**
 
-Jupyter uses a shared copyright model. Each contributor maintains copyright
-over their contributions to Jupyter. But, it is important to note that these
-contributions are typically only changes to the repositories. Thus, the Jupyter
-source code, in its entirety is not the copyright of any single person or
-institution. Instead, it is the collective copyright of the entire Jupyter
-Development Team. If individual contributors want to maintain a record of what
-changes/contributions they have specific copyright on, they should indicate
-their copyright in the commit message of the change, when they commit the
-change to one of the Jupyter repositories.
+   * Cluster songs using K-Means
+   * Visualize with PCA or t-SNE
 
-With this in mind, the following banner should be used in any source code file
-to indicate the copyright and license terms:
+4. **Build the Recommender**
 
-```
-# Copyright (c) Jupyter Development Team.
-# Distributed under the terms of the Modified BSD License.
-```
+   * Content-based: Use cosine similarity on audio features
+   * Collaborative filtering: Use matrix factorization
+   * Hybrid: Combine both methods
+
+5. **Evaluate**
+
+   * Precision, Recall, RMSE, user satisfaction (if test users available)
+
+---
+
+### 🧠 Tools & Libraries
+
+* Python
+* `pandas` (for manipulating Dataframe)
+* `spotipy` (Spotify API)
+* `numpy` (for collaborative filtering)
+* `sklearn` (Machine Learning Tasks)
+* `scipy`  (for importing stats module)
+
+---
+
+
